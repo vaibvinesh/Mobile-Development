@@ -1,0 +1,13 @@
+[
+{
+  "directory": "C:/Users/vaibv/OneDrive/Desktop/ASU Courses/EEE - 598 (MSA)/Assignments/Assignment-1/SpeedyTiltShift2022/app/.cxx/Debug/3a6y4d5g/x86_64",
+  "command": "C:\\Users\\vaibv\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe --target=x86_64-none-linux-android24 --gcc-toolchain=C:/Users/vaibv/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/vaibv/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles\\cpufeatures.dir\\fdeb6023cf1071a170f8d066ad7f057d\\sources\\android\\cpufeatures\\cpu-features.c.o   -c C:\\Users\\vaibv\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\sources\\android\\cpufeatures\\cpu-features.c",
+  "file": "C:\\Users\\vaibv\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\sources\\android\\cpufeatures\\cpu-features.c"
+},
+
+{
+  "directory": "C:/Users/vaibv/OneDrive/Desktop/ASU Courses/EEE - 598 (MSA)/Assignments/Assignment-1/SpeedyTiltShift2022/app/.cxx/Debug/3a6y4d5g/x86_64",
+  "command": "C:\\Users\\vaibv\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --gcc-toolchain=C:/Users/vaibv/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/vaibv/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dnative_lib_EXPORTS -IC:/Users/vaibv/AppData/Local/Android/Sdk/ndk/21.0.6113669/sources/android/cpufeatures  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -mfpu=neon -o CMakeFiles\\native-lib.dir\\src\\main\\cpp\\native-lib.cpp.o -c \"C:\\Users\\vaibv\\OneDrive\\Desktop\\ASU Courses\\EEE - 598 (MSA)\\Assignments\\Assignment-1\\SpeedyTiltShift2022\\app\\src\\main\\cpp\\native-lib.cpp\"",
+  "file": "C:/Users/vaibv/OneDrive/Desktop/ASU Courses/EEE - 598 (MSA)/Assignments/Assignment-1/SpeedyTiltShift2022/app/src/main/cpp/native-lib.cpp"
+}
+]

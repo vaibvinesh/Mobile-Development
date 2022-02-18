@@ -1,0 +1,4 @@
+C:/Users/vaibv/OneDrive/Desktop/ASU Courses/EEE - 598 (MSA)/Assignments/Assignment-1/SpeedyTiltShift2022/app/.cxx/Debug/3a6y4d5g/x86_64/CMakeFiles/cpufeatures.dir
+C:/Users/vaibv/OneDrive/Desktop/ASU Courses/EEE - 598 (MSA)/Assignments/Assignment-1/SpeedyTiltShift2022/app/.cxx/Debug/3a6y4d5g/x86_64/CMakeFiles/native-lib.dir
+C:/Users/vaibv/OneDrive/Desktop/ASU Courses/EEE - 598 (MSA)/Assignments/Assignment-1/SpeedyTiltShift2022/app/.cxx/Debug/3a6y4d5g/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/vaibv/OneDrive/Desktop/ASU Courses/EEE - 598 (MSA)/Assignments/Assignment-1/SpeedyTiltShift2022/app/.cxx/Debug/3a6y4d5g/x86_64/CMakeFiles/rebuild_cache.dir

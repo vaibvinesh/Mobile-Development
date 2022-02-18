@@ -1,0 +1,5 @@
+# ninja log v5
+118	11546	666276831	CMakeFiles/native-lib.dir/src/main/cpp/native-lib.cpp.o	5d3868289de9efd7
+126	11927	666276831	CMakeFiles/cpufeatures.dir/fdeb6023cf1071a170f8d066ad7f057d/sources/android/cpufeatures/cpu-features.c.o	64fe66beda20ac67
+11928	20467	666276840	libcpufeatures.a	dc26167f1a50ead7
+20467	21392	666276841	../../../../build/intermediates/cxx/Debug/3a6y4d5g/obj/arm64-v8a/libnative-lib.so	8053783af502040a
