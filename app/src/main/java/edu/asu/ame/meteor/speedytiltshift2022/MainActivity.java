@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private Bitmap bmp;
     static float sigma_range = 5.0f;
     private int[] imgIds= new int[]{R.drawable.img1,R.drawable.img2,R.drawable.img3};
-
+    private TextView rtText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,14 +32,17 @@ public class MainActivity extends AppCompatActivity {
     public void javaPress(View view){
         Bitmap outbmp = SpeedyTiltShift.tiltshift_java(bmp,s0f*sigma_range,s1f*sigma_range,(int)(a0f*bmp.getHeight()),(int)(a1f*bmp.getHeight()),(int)(a2f*bmp.getHeight()),(int)(a3f*bmp.getHeight()));
         imageView.setImageBitmap(outbmp);
+        rtText.setText("Java run time: " + SpeedyTiltShift.getRunTime() + "ms");
     }
     public void cppPress(View view){
         Bitmap outbmp = SpeedyTiltShift.tiltshift_cpp(bmp,s0f*sigma_range,s1f*sigma_range,(int)(a0f*bmp.getHeight()),(int)(a1f*bmp.getHeight()),(int)(a2f*bmp.getHeight()),(int)(a3f*bmp.getHeight()));
         imageView.setImageBitmap(outbmp);
+        rtText.setText("C++ run time: " + SpeedyTiltShift.getRunTime() + "ms");
     }
     public void neonPress(View view){
         Bitmap outbmp = SpeedyTiltShift.tiltshift_neon(bmp,s0f*sigma_range,s1f*sigma_range,(int)(a0f*bmp.getHeight()),(int)(a1f*bmp.getHeight()),(int)(a2f*bmp.getHeight()),(int)(a3f*bmp.getHeight()));
         imageView.setImageBitmap(outbmp);
+        rtText.setText("Neon run time: " + SpeedyTiltShift.getRunTime() + "ms");
     }
 
     private void setupImg(int imgId){
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         bmp = BitmapFactory.decodeResource(this.getResources(), imgIds[imgId],options);
         imageView.setImageBitmap(bmp);
+        rtText = (TextView)findViewById(R.id.textBox);
     }
 
     private void setupUI(){
