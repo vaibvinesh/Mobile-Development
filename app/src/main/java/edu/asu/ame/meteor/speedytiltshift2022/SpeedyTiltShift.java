@@ -31,9 +31,9 @@ public class SpeedyTiltShift {
         int[] pixels = new int[size];
         int[] pixelsOut = new int[size];
 
-        int[] blue = new int[size];
-        int[] green = new int[size];
-        int[] red = new int[size];
+        double[] blue = new double[size];
+        double[] green = new double[size];
+        double[] red = new double[size];
 
         /* store pixels to the int array */
         // 32 bits per pixel
@@ -58,30 +58,79 @@ public class SpeedyTiltShift {
          *      u = [-r, r]
          *  Blur(int[] pixelsOut, int currIndex, int width, float sigma)
          * **********************************************************************/
+        double[] qBlue = new double[size];
+        double[] qGreen = new double[size];
+        double[] qRed = new double[size];
+
         for (int i=0; i < size; i++) {
-            int color = 0;
             /* Far Gaussian blur */
             if (i < (a0+1)*input.getWidth()) {  // height: 0~a0, width: input.getWidth()
-                color = farBlur(blue, green, red, i, input.getWidth(), input.getHeight(), sigma_far);   // width * (a0+1)
+                qBlue[i] = farBlur(blue, i, input.getWidth(), input.getHeight(), sigma_far);   // width * (a0+1)
+                qGreen[i] = farBlur(green, i, input.getWidth(), input.getHeight(), sigma_far);
+                qRed[i] = farBlur(red, i, input.getWidth(), input.getHeight(), sigma_far);
             }
             /* Gradient Far Gaussian blur */
             else if ((i < (a1+1)*input.getWidth()) && (i >= ((a0+1)*input.getWidth()) )) {
-                color = gFarBlur(blue, green, red, i, input.getWidth(), input.getHeight(), sigma_far, a1, a0);
+                qBlue[i] = gFarBlur(blue, i, input.getWidth(), input.getHeight(), sigma_far, a1, a0);
+                qGreen[i] = gFarBlur(green, i, input.getWidth(), input.getHeight(), sigma_far, a1, a0);
+                qRed[i] = gFarBlur(red, i, input.getWidth(), input.getHeight(), sigma_far, a1, a0);
             }
             /* Focused */
             else if ((i < (a2+1)*input.getWidth()) && (i >= ((a1+1)*input.getWidth()))) {
-                color = (0xff) << 24 | (red[i] & 0xff) << 16 | (green[i] & 0xff) << 8 | (blue[i] & 0xff);
+                qBlue[i] = blue[i];
+                qGreen[i] = green[i];
+                qRed[i] = red[i];
             }
             /* Gradient Near Gaussian blur */
             else if ((i < (a3+1)*input.getWidth()) && (i >= ((a2+1)*input.getWidth()))) {
-                color = gNearBlur(blue, green, red, i, input.getWidth(), input.getHeight(), sigma_near, a3, a2);
+                qBlue[i] = gNearBlur(blue, i, input.getWidth(), input.getHeight(), sigma_near, a3, a2);
+                qGreen[i] = gNearBlur(green, i, input.getWidth(), input.getHeight(), sigma_near, a3, a2);
+                qRed[i] = gNearBlur(red, i, input.getWidth(), input.getHeight(), sigma_near, a3, a2);
             }
             /* Near Gaussian blur */
             else {
-                color = nearBlur(blue, green, red, i, input.getWidth(), input.getHeight(), sigma_near);
+                qBlue[i] = nearBlur(blue, i, input.getWidth(), input.getHeight(), sigma_near);
+                qGreen[i] = nearBlur(green, i, input.getWidth(), input.getHeight(), sigma_near);
+                qRed[i] = nearBlur(red, i, input.getWidth(), input.getHeight(), sigma_near);
+            }
+        }
+        for (int i=0; i < size; i++) {
+            double B = 0;
+            double G = 0;
+            double R = 0;
+            int A = 0xff;                   // how transparent the pixel is or not  // 0xff not transparent at all
+            /* Far Gaussian blur */
+            if (i < (a0+1)*input.getWidth()) {  // height: 0~a0, width: input.getWidth()
+                B = farBlur(qBlue, i, input.getWidth(), input.getHeight(), sigma_far);   // width * (a0+1)
+                G = farBlur(qGreen, i, input.getWidth(), input.getHeight(), sigma_far);
+                R = farBlur(qRed, i, input.getWidth(), input.getHeight(), sigma_far);
+            }
+            /* Gradient Far Gaussian blur */
+            else if ((i < (a1+1)*input.getWidth()) && (i >= ((a0+1)*input.getWidth()) )) {
+                B = gFarBlur(qBlue, i, input.getWidth(), input.getHeight(), sigma_far, a1, a0);
+                G = gFarBlur(qGreen, i, input.getWidth(), input.getHeight(), sigma_far, a1, a0);
+                R = gFarBlur(qRed, i, input.getWidth(), input.getHeight(), sigma_far, a1, a0);
+            }
+            /* Focused */
+            else if ((i < (a2+1)*input.getWidth()) && (i >= ((a1+1)*input.getWidth()))) {
+                B = (int)blue[i];    // no changes from horizontal direction
+                G = (int)green[i];
+                R = (int)red[i];
+            }
+            /* Gradient Near Gaussian blur */
+            else if ((i < (a3+1)*input.getWidth()) && (i >= ((a2+1)*input.getWidth()))) {
+                B = gNearBlur(qBlue, i, input.getWidth(), input.getHeight(), sigma_near, a3, a2);
+                G = gNearBlur(qGreen, i, input.getWidth(), input.getHeight(), sigma_near, a3, a2);
+                R = gNearBlur(qRed, i, input.getWidth(), input.getHeight(), sigma_near, a3, a2);
+            }
+            /* Near Gaussian blur */
+            else {
+                B = nearBlur(qBlue, i, input.getWidth(), input.getHeight(), sigma_near);
+                G = nearBlur(qGreen, i, input.getWidth(), input.getHeight(), sigma_near);
+                R = nearBlur(qRed, i, input.getWidth(), input.getHeight(), sigma_near);
             }
 
-            pixelsOut[i]=color;
+            pixelsOut[i] = (A & 0xff) << 24 | ((int)Math.ceil(R) & 0xff) << 16 | ((int)Math.ceil(G) & 0xff) << 8 | ((int)Math.ceil(B) & 0xff);;
         }
         /***********************************************************************
          * output
@@ -129,134 +178,99 @@ public class SpeedyTiltShift {
      * Blur(int[] pixelsOut, int currIndex, int width)
      * **********************************************************************/
 
-    private static void kernel(double[][] blurKernel,int r, float sigma) {
-        double denom = (1.0/(2*Math.PI*sigma*sigma));
-        for (int i=0; i < 2*r+1; i++) {
-            for (int j=0; j < 2*r+1; j++) {
-                blurKernel[i][j] = ( denom * Math.exp((-(i-r)*(i-r)-(j-r)*(j-r))/(2.0*sigma*sigma) ));
-            }
+    private static void kernel(double[] blurKernel,int r, float sigma) {
+        double denom = Math.sqrt(1.0/(2*Math.PI*sigma*sigma));
+        for (int k=0; k < 2*r+1; k++) {
+            blurKernel[k] = ( denom * Math.exp((-(k-r)*(k-r))/(2.0*sigma*sigma) ));
         }
     }
 
-    private static int conv(int[] pixels, int index,int width, int height, double[][] blurKernel, int r) {
+    //Fast Convolution
+    private static double conv(double[] pixels, int index,int width, int height, double[] blurKernel, int r) {
         int x = index % width;
         int y = index / width;
-        float temp = 0;
-        for (int i=-r; i <= r; i++) {
-            for (int j=-r; j <= r; j++) {
-                if ((y+j < 0 && x+i < 0) || (y+j >= height && x+i >= width) || (y+j < 0 && x+i >= width) || (y+j >= height && x+i < 0)) {  // top-left, bottom-right, bottom-left, and top-right corners
-                    temp += blurKernel[j+r][i+r] * pixels[(y-j)*width+(x-i)];   // symmetric padding
-                }
-                else if (y+j < 0 || y+j >= height) {
-                    temp += blurKernel[j+r][i+r] * pixels[(y-j)*width+(x+i)];   // symmetric padding
-                }
-                else if (x+i < 0 || x+i >= width) {
-                    temp += blurKernel[j+r][i+r] * pixels[(y+j)*width+(x-i)];   // symmetric padding
-                }
-                else {
-                    temp += blurKernel[j+r][i+r] * pixels[(y+j)*width+(x+i)];
-                }
+        double temp = 0;
+
+        /* choose for vertical or horizontal case */
+        for (int j = -r; j <= r; j++) {
+            if (y + j < 0 || y + j >= height) {  // edge cases
+                temp += blurKernel[j + r] * pixels[(y - j) * width + (x)];   // symmetric padding
+            } else {
+                temp += blurKernel[j + r] * pixels[(y + j) * width + (x)];
             }
         }
-        //System.out.println(Math.ceil(temp));
-        return (int) Math.ceil(temp);
+        return temp;
     }
 
-    private static int farBlur(int[] blue, int[] green, int[] red, int currIndex, int width, int height, float sigma) {
-        int r = (int) Math.ceil(4*sigma);
+    // Far Blur
+    private static double farBlur(double[] pixels, int currIndex, int width, int height, float sigma) {
+        int r = (int) Math.ceil(2*sigma);
 
         /* Define far blurred filter */
-        double[][] blurKernel = new double[2*r+1][2*r+1];
+        double[] blurKernel = new double[2*r+1];
         kernel(blurKernel, r, sigma);
 
+
         /* Convolution */
-        int B = blue[currIndex];
-        int G = green[currIndex];
-        int R = red[currIndex];
-        int A = 0xff;
+        double pixel = pixels[currIndex];
         if (sigma > 0.6){
-            B = conv(blue, currIndex, width, height, blurKernel, r);
-            G = conv(green, currIndex, width, height, blurKernel, r);
-            R = conv(red, currIndex, width, height, blurKernel, r);
-            A = 0xff;                   // how transparent the pixel is or not  // 0xff not transparent at all
+            pixel = conv(pixels, currIndex, width, height, blurKernel, r);
         }
-        int color = (A & 0xff) << 24 | (R & 0xff) << 16 | (G & 0xff) << 8 | (B & 0xff);
-        return color;
+        return pixel;
     }
 
-    private static int gFarBlur(int[] blue, int[] green, int[] red, int currIndex, int width, int height, float sigma, int a1, int a0) {
+    //Gradient blur for far.
+    private static int gFarBlur(double[] pixels, int currIndex, int width, int height, float sigma, int a1, int a0) {
         /* Gradient sigma calculation */
         float gSigma = sigma * ((a1 - ((float) currIndex) / width)/(a1 - a0)); // height = a1 - a0
 
-        int r = (int) Math.ceil(4*gSigma);
+        int r = (int) Math.ceil(2*gSigma);
 
         /* Define far blurred filter */
-        double[][] blurKernel = new double[2*r+1][2*r+1];
+        double[] blurKernel = new double[2*r+1];
         kernel(blurKernel, r, gSigma);
 
         /* Convolution */
-        int B = blue[currIndex];
-        int G = green[currIndex];
-        int R = red[currIndex];
-        int A = 0xff;
+        double pixel = pixels[currIndex];
         if (gSigma > 0.6){
-            B = conv(blue, currIndex, width, height, blurKernel, r);
-            G = conv(green, currIndex, width, height, blurKernel, r);
-            R = conv(red, currIndex, width, height, blurKernel, r);
-            A = 0xff;                   // how transparent the pixel is or not  // 0xff not transparent at all
+            pixel = conv(pixels, currIndex, width, height, blurKernel, r);
         }
-
-        int color = (A & 0xff) << 24 | (R & 0xff) << 16 | (G & 0xff) << 8 | (B & 0xff);
-        return color;
+        return (int) Math.ceil(pixel);
     }
 
-    private static int gNearBlur(int[] blue, int[] green, int[] red, int currIndex, int width, int height, float sigma, int a3, int a2) {
+    // Gradient Near blur
+    private static double gNearBlur(double[] pixels, int currIndex, int width, int height, float sigma, int a3, int a2) {
         /* Gradient sigma calculation */
         float gSigma = sigma * ((((float) currIndex) / width - a2)/(a3 - a2)); // height = a3 - a2
 
-        int r = (int) Math.ceil(4*gSigma);
+        int r = (int) Math.ceil(2*gSigma);
 
         /* Define far blurred filter */
-        double[][] blurKernel = new double[2*r+1][2*r+1];
+        double[] blurKernel = new double[2*r+1];
         kernel(blurKernel, r, gSigma);
 
         /* Convolution */
-        int B = blue[currIndex];
-        int G = green[currIndex];
-        int R = red[currIndex];
-        int A = 0xff;
+        double pixel = pixels[currIndex];
         if (gSigma > 0.6){
-            B = conv(blue, currIndex, width, height, blurKernel, r);
-            G = conv(green, currIndex, width, height, blurKernel, r);
-            R = conv(red, currIndex, width, height, blurKernel, r);
-            A = 0xff;                   // how transparent the pixel is or not  // 0xff not transparent at all
+            pixel = conv(pixels, currIndex, width, height, blurKernel, r);
         }
-
-
-        int color = (A & 0xff) << 24 | (R & 0xff) << 16 | (G & 0xff) << 8 | (B & 0xff);
-        return color;
+        return pixel;
     }
 
-    private static int nearBlur(int[] blue, int[] green, int[] red, int currIndex, int width, int height, float sigma) {
-        int r = (int) Math.ceil(4*sigma);
+    // Near Blur
+    private static double nearBlur(double[] pixels, int currIndex, int width, int height, float sigma) {
+        int r = (int) Math.ceil(2*sigma);
 
         /* Define far blurred filter */
-        double[][] blurKernel = new double[2*r+1][2*r+1];
+        double[] blurKernel = new double[2*r+1];
         kernel(blurKernel, r, sigma);
 
         /* Convolution */
-        int B = blue[currIndex];
-        int G = green[currIndex];
-        int R = red[currIndex];
-        int A = 0xff;
+        double pixel = pixels[currIndex];
         if (sigma > 0.6){
-            B = conv(blue, currIndex, width, height, blurKernel, r);
-            G = conv(green, currIndex, width, height, blurKernel, r);
-            R = conv(red, currIndex, width, height, blurKernel, r);
-            A = 0xff;                   // how transparent the pixel is or not  // 0xff not transparent at all
+            pixel = conv(pixels, currIndex, width, height, blurKernel, r);
         }
-        int color = (A & 0xff) << 24 | (R & 0xff) << 16 | (G & 0xff) << 8 | (B & 0xff);
-        return color;
+        return pixel;
     }
 
     public static float getRunTime(){ //getter
