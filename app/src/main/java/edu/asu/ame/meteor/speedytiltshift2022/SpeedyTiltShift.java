@@ -220,7 +220,7 @@ public class SpeedyTiltShift {
     }
 
     //Gradient blur for far.
-    private static int gFarBlur(double[] pixels, int currIndex, int width, int height, float sigma, int a1, int a0) {
+    private static double gFarBlur(double[] pixels, int currIndex, int width, int height, float sigma, int a1, int a0) {
         /* Gradient sigma calculation */
         float gSigma = sigma * ((a1 - ((float) currIndex) / width)/(a1 - a0)); // height = a1 - a0
 
