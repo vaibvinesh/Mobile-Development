@@ -1,5 +1,2 @@
 ninja: Entering directory `C:\Users\vaibv\OneDrive\Desktop\ASU Courses\EEE - 598 (MSA)\Assignments\Assignment-1\SpeedyTiltShift2022\app\.cxx\Debug\3a6y4d5g\x86_64'
-[1/2] Building CXX object CMakeFiles/native-lib.dir/src/main/cpp/native-lib.cpp.o
-clang++: warning: argument unused during compilation: '-mfpu=neon' [-Wunused-command-line-argument]
-[2/2] Linking CXX shared library ..\..\..\..\build\intermediates\cxx\Debug\3a6y4d5g\obj\x86_64\libnative-lib.so
-The screen cannot be set to the number of lines and columns specified.
+ninja: no work to do.
