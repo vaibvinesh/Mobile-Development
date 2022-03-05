@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     static float sigma_range = 5.0f;
     private int[] imgIds= new int[]{R.drawable.img1,R.drawable.img2,R.drawable.img3};
     private TextView rtText;
-    Button javabtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,17 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void javaPress(View view){
-        PopupMenu popupMenu = new PopupMenu(MainActivity.this, javabtn);
-        popupMenu.getMenuInflater().inflate(R.menu.pop_up_menu, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Bitmap outbmp = SpeedyTiltShift.tiltshift_java(bmp,s0f*sigma_range,s1f*sigma_range,(int)(a0f*bmp.getHeight()),(int)(a1f*bmp.getHeight()),(int)(a2f*bmp.getHeight()),(int)(a3f*bmp.getHeight()), menuItem.getTitle().toString());
-                imageView.setImageBitmap(outbmp);
-                return true;
-            }
-        });
-        popupMenu.show();
+        Bitmap outbmp = SpeedyTiltShift.tiltshift_java(bmp,s0f*sigma_range,s1f*sigma_range,(int)(a0f*bmp.getHeight()),(int)(a1f*bmp.getHeight()),(int)(a2f*bmp.getHeight()),(int)(a3f*bmp.getHeight()));
+        imageView.setImageBitmap(outbmp);
         rtText.setText("Java run time: " + SpeedyTiltShift.getRunTime() + "ms");
     }
     public void cppPress(View view){
@@ -75,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         Button imgbtn1 = (Button)findViewById(R.id.imgbtn1);
         Button imgbtn2 = (Button)findViewById(R.id.imgbtn2);
         Button imgbtn3 = (Button)findViewById(R.id.imgbtn3);
-        javabtn = (Button)findViewById(R.id.javabtn);
+        Button javabtn = (Button)findViewById(R.id.javabtn);
         Button cppbtn = (Button)findViewById(R.id.cppbtn);
         Button neonbtn = (Button)findViewById(R.id.neonbtn);
         javabtn.setOnClickListener(new Button.OnClickListener(){

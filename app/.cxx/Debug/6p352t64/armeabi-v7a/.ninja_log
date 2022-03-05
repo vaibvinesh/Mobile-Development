@@ -1,0 +1,7 @@
+# ninja log v5
+163	14411	668157879	CMakeFiles/cpufeatures.dir/fdeb6023cf1071a170f8d066ad7f057d/sources/android/cpufeatures/cpu-features.c.o	c7e2f4c506ac045c
+103	7023	668158006	libcpufeatures.a	3b6c74e25e34b84a
+221	9823	668158009	CMakeFiles/native-lib.dir/src/main/cpp/native-lib.cpp.o	651643ab3c03a090
+9824	10647	668158010	../../../../build/intermediates/cxx/Debug/6p352t64/obj/armeabi-v7a/libnative-lib.so	8e3d5e27c3304cba
+430	8145	668160819	CMakeFiles/native-lib.dir/src/main/cpp/native-lib.cpp.o	651643ab3c03a090
+8146	9422	668160821	../../../../build/intermediates/cxx/Debug/6p352t64/obj/armeabi-v7a/libnative-lib.so	8e3d5e27c3304cba

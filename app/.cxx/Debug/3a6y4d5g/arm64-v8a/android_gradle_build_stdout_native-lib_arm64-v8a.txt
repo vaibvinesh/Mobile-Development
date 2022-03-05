@@ -1,2 +1,55 @@
 ninja: Entering directory `C:\Users\vaibv\OneDrive\Desktop\ASU Courses\EEE - 598 (MSA)\Assignments\Assignment-1\SpeedyTiltShift2022\app\.cxx\Debug\3a6y4d5g\arm64-v8a'
-ninja: no work to do.
+[1/2] Building CXX object CMakeFiles/native-lib.dir/src/main/cpp/native-lib.cpp.o
+FAILED: CMakeFiles/native-lib.dir/src/main/cpp/native-lib.cpp.o 
+C:\Users\vaibv\AppData\Local\Android\Sdk\ndk\21.0.6113669\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe --target=aarch64-none-linux-android24 --gcc-toolchain=C:/Users/vaibv/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/vaibv/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dnative_lib_EXPORTS -IC:/Users/vaibv/AppData/Local/Android/Sdk/ndk/21.0.6113669/sources/android/cpufeatures -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -mfpu=neon -MD -MT CMakeFiles/native-lib.dir/src/main/cpp/native-lib.cpp.o -MF CMakeFiles\native-lib.dir\src\main\cpp\native-lib.cpp.o.d -o CMakeFiles/native-lib.dir/src/main/cpp/native-lib.cpp.o -c ../../../../src/main/cpp/native-lib.cpp
+clang++: warning: argument unused during compilation: '-mfpu=neon' [-Wunused-command-line-argument]
+../../../../src/main/cpp/native-lib.cpp:499:1: error: redefinition of 'Java_edu_asu_ame_meteor_speedytiltshift2022_SpeedyTiltShift_tiltshiftcppnative'
+Java_edu_asu_ame_meteor_speedytiltshift2022_SpeedyTiltShift_tiltshiftcppnative(JNIEnv *env,
+^
+../../../../src/main/cpp/native-lib.cpp:22:1: note: previous definition is here
+Java_edu_asu_ame_meteor_speedytiltshift2022_SpeedyTiltShift_tiltshiftcppnative(JNIEnv *env,
+^
+../../../../src/main/cpp/native-lib.cpp:664:6: error: redefinition of 'kernel'
+void kernel(double* blurKernel,int r, float sigma) {
+     ^
+../../../../src/main/cpp/native-lib.cpp:187:6: note: previous definition is here
+void kernel(double* blurKernel,int r, float sigma) {
+     ^
+../../../../src/main/cpp/native-lib.cpp:671:8: error: redefinition of 'conv'
+double conv(double* pixel, int index,int width, int height, double* blurKernel, int r, bool vertical) {
+       ^
+../../../../src/main/cpp/native-lib.cpp:194:8: note: previous definition is here
+double conv(double* pixel, int index,int width, int height, double* blurKernel, int r, bool vertical) {
+       ^
+../../../../src/main/cpp/native-lib.cpp:696:8: error: redefinition of 'blur'
+double blur(double* pixels, int currIndex, int width, int height, float sigma, int dim1, int dim2, int isGradient, bool vertical) {
+       ^
+../../../../src/main/cpp/native-lib.cpp:219:8: note: previous definition is here
+double blur(double* pixels, int currIndex, int width, int height, float sigma, int dim1, int dim2, int isGradient, bool vertical) {
+       ^
+../../../../src/main/cpp/native-lib.cpp:734:1: error: redefinition of 'Java_edu_asu_ame_meteor_speedytiltshift2022_SpeedyTiltShift_tiltshiftneonnative'
+Java_edu_asu_ame_meteor_speedytiltshift2022_SpeedyTiltShift_tiltshiftneonnative(JNIEnv *env,
+^
+../../../../src/main/cpp/native-lib.cpp:257:1: note: previous definition is here
+Java_edu_asu_ame_meteor_speedytiltshift2022_SpeedyTiltShift_tiltshiftneonnative(JNIEnv *env,
+^
+../../../../src/main/cpp/native-lib.cpp:867:6: error: redefinition of 'neonKernel'
+void neonKernel(float32_t* blurKernel,int r, float sigma) {
+     ^
+../../../../src/main/cpp/native-lib.cpp:390:6: note: previous definition is here
+void neonKernel(float32_t* blurKernel,int r, float sigma) {
+     ^
+../../../../src/main/cpp/native-lib.cpp:874:7: error: redefinition of 'neonConv'
+float neonConv(float32_t* pixel, int index,int width, int height, float32_t* blurKernel, int r, bool vertical) {
+      ^
+../../../../src/main/cpp/native-lib.cpp:397:7: note: previous definition is here
+float neonConv(float32_t* pixel, int index,int width, int height, float32_t* blurKernel, int r, bool vertical) {
+      ^
+../../../../src/main/cpp/native-lib.cpp:925:11: error: redefinition of 'neonBlur'
+float32_t neonBlur(float32_t* pixels, int currIndex, int width, int height, float sigma, int dim1, int dim2, int isGradient, bool vertical) {
+          ^
+../../../../src/main/cpp/native-lib.cpp:448:11: note: previous definition is here
+float32_t neonBlur(float32_t* pixels, int currIndex, int width, int height, float sigma, int dim1, int dim2, int isGradient, bool vertical) {
+          ^
+8 errors generated.
+ninja: build stopped: subcommand failed.
